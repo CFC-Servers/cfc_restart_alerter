@@ -12,7 +12,7 @@ local function getEndpoint()
 end
 
 local function alertOfRestart()
-    printLog("Issueing a restart request to '" .. endpoint .. "'")
+    printLog("Issuing a restart request to '" .. endpoint .. "'")
     http.Post( endpoint, {}, function( result ) end, function( failed ) printLog("Request failed! : " .. failed) end )
 end
 
