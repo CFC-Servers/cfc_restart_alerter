@@ -13,7 +13,7 @@ end
 
 local function alertOfRestart()
     printLog("Issueing a restart request to '" .. endpoint .. "'")
-    http.Post( endpoint, {}, function( result ) end, function( failed ) print("[CFC Restart Alerter] Request failed! : " .. failed) end )
+    http.Post( endpoint, {}, function( result ) end, function( failed ) printLog("Request failed! : " .. failed) end )
 end
 
 endpoint = getEndpoint()
