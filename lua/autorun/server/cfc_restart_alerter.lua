@@ -12,14 +12,8 @@ local function getEndpoint()
 end
 
 local function alertOfRestart()
-    timer.Simple()
     printLog("Issueing a restart request to '" .. endpoint .. "'")
     http.Post( endpoint, {}, function( result ) end, function( failed ) print("[CFC Restart Alerter] Request failed! : " .. failed) end )
-end
-
-local function delayedAlert()
-    -- We need to have a timer becasue sometimes this addon loads before HTTP functions are available
-    timer.Simple(3, alertOfRestart)
 end
 
 endpoint = getEndpoint()
@@ -27,7 +21,7 @@ printLog("Read endpoint as: " .. endpoint)
 if endpoint == nil then
     printLog("The restart endpoint hasn't been set! Addon cannot function.")
 else
-    hook.Remove("Initialize","CFC_RestartAlerter")
-    hook.Add("Initialize", "CFC_RestartAlerter", delayedAlert)
+    hook.Remove("PostGamemodeLoaded","CFC_RestartAlerter")
+    hook.Add("PostGamemodeLoaded", "CFC_RestartAlerter", alertOfRestart)
     printLog("The restart script has been enabled!")
 end
