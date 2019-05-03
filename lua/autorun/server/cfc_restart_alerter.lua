@@ -13,7 +13,20 @@ end
 
 local function alertOfRestart()
     printLog("Issuing a restart request to '" .. endpoint .. "'")
-    http.Post( endpoint, {}, function( result ) end, function( failed ) printLog("Request failed! : " .. failed) end )
+    http.Post(
+        endpoint,
+        {},
+        function( result )
+            printLog("Request succeeded! : " .. result)
+        end,
+
+        function( failed )
+            printLog("Request failed! : " .. failed)
+        end
+    )
+
+    printLog("Removing RestartAlerter Tick hook")
+    hook.Remove("Tick","CFC_RestartAlerter")
 end
 
 endpoint = getEndpoint()
@@ -21,7 +34,8 @@ printLog("Read endpoint as: " .. endpoint)
 if endpoint == nil then
     printLog("The restart endpoint hasn't been set! Addon cannot function.")
 else
-    hook.Remove("PostGamemodeLoaded","CFC_RestartAlerter")
-    hook.Add("PostGamemodeLoaded", "CFC_RestartAlerter", alertOfRestart)
+    hook.Remove("Tick","CFC_RestartAlerter")
+    hook.Add("Tick", "CFC_RestartAlerter", alertOfRestart)
+
     printLog("The restart script has been enabled!")
 end
