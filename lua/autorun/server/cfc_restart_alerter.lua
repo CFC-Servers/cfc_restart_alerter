@@ -1,3 +1,5 @@
+require( "webhooker_interface" )
+local Webhooker = WebhookerInterface()
 local endpoint
 
 local function printLog( log )
@@ -11,19 +13,16 @@ local function getEndpoint()
     return endpoint
 end
 
-local function alertOfRestart()
-    printLog( "Issuing a restart request to '" .. endpoint .. "'" )
-    http.Post(
-        endpoint,
-        {},
-        function( result )
-            printLog( "Request succeeded! : " .. result )
-        end,
+local function onSuccess( result )
+    printLog( "Request succeeded! : " .. result )
+end
 
-        function( failed )
-            printLog( "Request failed! : " .. failed )
-        end
-    )
+local function onFailure( failure )
+    printLog( "Request failed! : " .. failure )
+end
+
+local function alertOfRestart()
+    Webhooker:send( endpoint, {}, onSuccess, onFailure )
 
     printLog( "Removing RestartAlerter Tick hook" )
     hook.Remove( "Tick","CFC_RestartAlerter" )
