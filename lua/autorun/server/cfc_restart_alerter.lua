@@ -1,25 +1,24 @@
 require( "webhooker_interface" )
-local Webhooker = WebhookerInterface()
+require( "cfclogger" )
 
-local function printLog( log )
-    print( "[CFC Restart Alerter] " .. log )
-end
+local Webhooker = WebhookerInterface()
+local Logger = CFCLogger( "CFC Restart Alerter" )
 
 local function onSuccess( result )
-    printLog( "Request succeeded! : " .. result )
+    Logger( "Request succeeded! : ", result )
 end
 
 local function onFailure( failure )
-    printLog( "Request failed! : " .. failure )
+    Logger:error( "Request failed! :", failure )
 end
 
 local function alertOfRestart()
-    Webhooker:send( "gamemode-loaded", {}, onSuccess, onFailure )
-
-    printLog( "Removing RestartAlerter Tick hook" )
     hook.Remove( "Tick","CFC_RestartAlerter" )
+
+    Webhooker:send( "gamemode-loaded", {}, onSuccess, onFailure )
+    Logger:debug( "Removing RestartAlerter Tick hook" )
 end
 
 hook.Add( "Tick", "CFC_RestartAlerter", alertOfRestart )
 
-printLog( "The restart script has been enabled!" )
+Logger:info( "The restart script has been enabled!" )
