@@ -5,7 +5,7 @@ local Webhooker = WebhookerInterface()
 local Logger = CFCLogger( "CFC Restart Alerter" )
 
 local function onSuccess( result )
-    Logger( "Request succeeded! : ", result )
+    Logger:info( "Request succeeded! : ", result )
 end
 
 local function onFailure( failure )
