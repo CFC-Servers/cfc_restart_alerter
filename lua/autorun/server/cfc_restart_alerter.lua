@@ -1,8 +1,8 @@
 require( "webhooker_interface" )
-require( "cfclogger" )
+require( "logger" )
 
 local Webhooker = WebhookerInterface()
-local Logger = CFCLogger( "CFC Restart Alerter" )
+local Logger = Logger( "CFC Restart Alerter" )
 
 local function onSuccess( result )
     Logger:info( "Request succeeded! : ", result )
