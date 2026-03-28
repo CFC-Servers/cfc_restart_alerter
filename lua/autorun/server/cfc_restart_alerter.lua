@@ -15,7 +15,11 @@ end
 local function alertOfRestart()
     hook.Remove( "Tick","CFC_RestartAlerter" )
 
-    Webhooker:send( "gamemode-loaded", {}, onSuccess, onFailure )
+    local data = {
+        map = string.lower( game.GetMap() ),
+    }
+
+    Webhooker:send( "gamemode-loaded", data, onSuccess, onFailure )
     Logger:debug( "Removing RestartAlerter Tick hook" )
 end
 
