@@ -13,7 +13,7 @@ local function onFailure( failure )
 end
 
 local function alertOfRestart()
-    hook.Remove( "Tick","CFC_RestartAlerter" )
+    hook.Remove( "Tick", "CFC_RestartAlerter" )
 
     local data = {
         map = string.lower( game.GetMap() ),
